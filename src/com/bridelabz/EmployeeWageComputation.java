@@ -1,6 +1,8 @@
 package com.bridelabz;
 
-class CompanyEmpWage{
+import java.util.ArrayList;
+
+class CompanyEmpWage {
     interface IEmployeeWageComputation
     {
         public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs);
@@ -8,7 +10,7 @@ class CompanyEmpWage{
         public void calculateTotalWage();
     }
 
-    class companyEmpWage
+    class CompanyEmpWage
     {
         // instance constants
         final String COMPANY_NAME;
@@ -18,7 +20,7 @@ class CompanyEmpWage{
         // instance variable
         int totalEmpWage;
 
-        companyEmpWage(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs)
+        CompanyEmpWage(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs)
         {
             COMPANY_NAME = companyName;
             WAGE_PER_HR = wagePerHr;
@@ -50,19 +52,17 @@ class CompanyEmpWage{
         public static final int PART_TIME = 1;
         public static final int FULL_TIME = 2;
         // instance variables
-        int noOfCompanies, index;
-        companyEmpWage[] companies;
+        ArrayList<CompanyEmpWage> companies;
 
-        public EmployeeWageComputation(int noOfCompanies)
+        public EmployeeWageComputation()
         {
-            this.noOfCompanies = noOfCompanies;
-            companies = new companyEmpWage[noOfCompanies];
-            index = 0;
+            companies = new ArrayList<>();
         }
 
         public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs)
         {
-            companies[index++] = new companyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+            CompanyEmpWage company = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+            companies.add(company);
         }
 
         int generateEmployeeType()
@@ -85,7 +85,7 @@ class CompanyEmpWage{
 
         public void calculateTotalWage()
         {
-            for (companyEmpWage company : companies)
+            for (CompanyEmpWage company : companies)
             {
                 int totalWage = calculateTotalWage(company);
                 company.setTotalEmployeeWage(totalWage);
@@ -93,7 +93,7 @@ class CompanyEmpWage{
             }
         }
 
-        int calculateTotalWage(companyEmpWage companyEmpWage)
+        int calculateTotalWage(CompanyEmpWage companyEmpWage)
         {
             System.out.println("Computation of total wage of " + companyEmpWage.COMPANY_NAME + " employee");
             System.out.println("-----------------------------------------------------");
@@ -114,10 +114,11 @@ class CompanyEmpWage{
 
         public static void main(String args[])
         {
-            EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation(3);
+            EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();
             employeeWageComputation.addCompany("Microsoft", 4, 30, 100);
             employeeWageComputation.addCompany("Google", 5, 40, 170);
             employeeWageComputation.addCompany("Apple", 9, 10, 70);
+            employeeWageComputation.addCompany("Amazon", 19, 10, 150);
             employeeWageComputation.calculateTotalWage();
         }
 }
